@@ -1,0 +1,15 @@
+.gb-container{
+  background-color: #0d3b4cf0;
+  height: 100vh;
+}
+
+.five-numbers{
+  font-size: 8vw;
+  color: white;
+}
+
+.count-down{
+  font-size: 7vw;
+  color: white;
+}
+
