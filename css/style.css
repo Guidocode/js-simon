@@ -3,13 +3,27 @@
   height: 100vh;
 }
 
-.five-numbers{
+h2{
+  font-size: 3rem;
+  color: white;
+  font-weight: bold;
+  margin: 50px 0;
+  text-decoration: underline;
+}
+
+.five-numbers, .count-down{
   font-size: 8vw;
   color: white;
 }
 
-.count-down{
-  font-size: 7vw;
+label{
   color: white;
+  font-size: 1.5rem;
 }
 
+.button-start{
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.857);
+}

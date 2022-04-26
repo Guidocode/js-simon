@@ -14,18 +14,51 @@
 */
 
 
-const fiveNumbers = document.querySelector('.five-numbers');
+const fiveNumbersOutput = document.querySelector('.five-numbers');
 
-const countDown = document.querySelector('.count-down');
+const countDownOutput = document.querySelector('.count-down');
 
-document.querySelector('.five-numbers').addEventListener('click', btnInizia);
+// console.log('bottoni', document.querySelector('.button-start'));
+
+document.querySelector('.button-start').addEventListener('click', btnInizia);
+
+let counter = 5;
+
+let timer;
 
 function btnInizia(){
 
-  const numeri = generateNumbers()
+  reset();
 
+  const numeri = generateNumbers();
+
+  console.log('numeri generati', numeri);
+
+  for (let index = 0; index < numeri.length; index++) {
+
+    // console.log(numeri[index]); 
+    fiveNumbersOutput.innerHTML = fiveNumbersOutput.innerHTML + ' ' + numeri[index];
+    
+  }
+
+  timer = setInterval( countDown, 1000 );
+  countDownOutput.innerHTML = timer;
+}
+
+
+// Funzione conto alla rovescia
+function countDown(){
+
+  console.log(counter);
+  counter--
+
+  if( counter < 0 ){
+    clearInterval( timer );
+    console.log('TEMPO SCADUTO');
+  }
 
 }
+
 
 
 // Funzione che genera i 5 numeri
@@ -44,9 +77,15 @@ function generateNumbers(){
   return numeriGenerati;
 }
 
-console.log(generateNumbers());
 
 // funzione numeri random
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+
+
+// Funzione di reset numeri e conto alla rovescia
+function reset(){
+  fiveNumbersOutput.innerHTML = '';
+  countDownOutput.innerHTML = '';
 }
