@@ -11,19 +11,25 @@ h2{
   text-decoration: underline;
 }
 
-.five-numbers, .count-down{
-  font-size: 8vw;
+#message, #numbers{
+  font-size: 3vw;
   color: white;
 }
 
-label{
-  color: white;
-  font-size: 1.5rem;
+.gb-box{
+  background-color: rgba(215, 63, 63, 0.879);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.773);
 }
 
 .button-start{
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
   text-transform: uppercase;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.857);
-}
+} 

@@ -14,78 +14,125 @@
 */
 
 
-const fiveNumbersOutput = document.querySelector('.five-numbers');
 
-const countDownOutput = document.querySelector('.count-down');
+let secondsToWait = 5;
+const totalNumbers = 5;
+const randomNumbers = [];
 
-// console.log('bottoni', document.querySelector('.button-start'));
 
-document.querySelector('.button-start').addEventListener('click', btnInizia);
 
-let counter = 5;
+// FUNZIONI
 
-let timer;
+// funzione numeri random
+function getRandomNumbers(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
-function btnInizia(){
-
-  reset();
-
-  const numeri = generateNumbers();
-
-  console.log('numeri generati', numeri);
-
-  for (let index = 0; index < numeri.length; index++) {
-
-    // console.log(numeri[index]); 
-    fiveNumbersOutput.innerHTML = fiveNumbersOutput.innerHTML + ' ' + numeri[index];
-    
-  }
-
-  timer = setInterval( countDown, 1000 );
-  countDownOutput.innerHTML = timer;
+// funzione che stampa i messaggi
+const printMessages = (message, numbers) => {
+  document.getElementById('message').innerHTML = message;
+  document.getElementById('numbers').innerHTML = numbers;
 }
 
 
-// Funzione conto alla rovescia
-function countDown(){
+// Funzione che mi restituisce i numeri inseriti dall'utente
+const getUserNumbers = () => {
 
-  console.log(counter);
-  counter--
+  const numbers = [];
 
-  if( counter < 0 ){
-    clearInterval( timer );
-    console.log('TEMPO SCADUTO');
-  }
-
-}
-
-
-
-// Funzione che genera i 5 numeri
-function generateNumbers(){
-
-  const numeriGenerati = [];
-
-  while( numeriGenerati.length < 5 ){
-    const num = getRndInteger(1, 10)
-
-    if( !numeriGenerati.includes(num )){
-      numeriGenerati.push(num);
+  while(numbers.length < totalNumbers){
+    const newNumber = parseInt(prompt('Inserisci il numero che ricordi'));
+    if(!numbers.includes(newNumber)){
+      numbers.push(newNumber)
+    }else{
+      alert('Numero già inserito!')
     }
   }
 
-  return numeriGenerati;
+  return numbers;
 }
 
 
-// funzione numeri random
-function getRndInteger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) ) + min;
+// Funzione di confronto numeri random con i numeri dell'utente
+const getCorrectNumbers = (numbersToCheck) => {
+
+  const correctNumbers= [];
+
+  for(let i = 0; i < randomNumbers.length; i++){
+    console.log('Verifico se ',randomNumbers[i], 'è presente in ', numbersToCheck);
+    if(numbersToCheck.includes(randomNumbers[i])){
+      correctNumbers.push(randomNumbers[i])
+    }
+  }
+
+  return correctNumbers;
+}
+
+
+
+// Quando l'utente clicca sul bottone inizia parte il gioco 
+document.querySelector('.button-start').addEventListener('click', btnStart);
+
+function btnStart() {
+
+  reset()
+
+  // TIMING FUNCTIONS
+  // stampo un nuovo messaggio ad ogni secondo, attendendo un secondo prima di partire
+  const countDown = setInterval(function(){
+  printMessages(`Hai ${--secondsToWait} secondi per indovinare i seguenti numeri`, randomNumbers);
+  },1000);
+
+
+  // Quando scadono i secondi nascondo i numeri, scrivo un messaggio e interrompo il countdown
+  setTimeout(function(){
+
+  clearInterval(countDown);
+  printMessages("Quali ricordi?", '');
+
+  }, secondsToWait * 1000);
+
+
+  // Allo scadere dei secondi + 1 (per dare il tempo di leggere il messaggio) faccio partire l'interazione con l'utente
+  setTimeout(function(){
+
+  printMessages("Scrivi tutti i numeri", '');
+  
+  const userNumbers = getUserNumbers();
+  
+  const correctNumbers = getCorrectNumbers(userNumbers);
+  
+  if(correctNumbers.length === 0){
+    printMessages('Non hai indovinato nulla!','');
+  }else{
+    printMessages(`Hai indovinato ${correctNumbers.length} numeri su ${totalNumbers}`, correctNumbers);
+  }
+  console.log(correctNumbers);
+
+  }, (secondsToWait + 1) * 1000)
+
+
+  // INIZIO
+  // Genero i numeri random e li stampo
+  while(randomNumbers.length < totalNumbers){
+
+  const newRandomNumber = getRandomNumbers(1,10);
+
+  if(!randomNumbers.includes(newRandomNumber)){
+    randomNumbers.push(newRandomNumber);
+  }
+  }
+
+  printMessages(`Hai ${secondsToWait} secondi per indovinare i seguenti numeri`, randomNumbers);
+
+
 }
 
 
 // Funzione di reset numeri e conto alla rovescia
 function reset(){
-  fiveNumbersOutput.innerHTML = '';
-  countDownOutput.innerHTML = '';
+  printMessages('');
 }
+
+
+
